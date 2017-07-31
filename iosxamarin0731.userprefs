@@ -1,0 +1,18 @@
+﻿<Properties StartupConfiguration="{540AF588-DC70-447D-83BC-490A3F1CACE4}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="iosxamarin0731/Info.plist">
+    <Files>
+      <File FileName="iosxamarin0731/AppDelegate.cs" Line="14" Column="36" />
+      <File FileName="iosxamarin0731/SecondViewController.cs" Line="18" Column="32" />
+      <File FileName="iosxamarin0731/Info.plist" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.iosxamarin0731 PreferredExecutionTarget="Xamarin.Player.XamarinStudio.DefaultPlayerExecutionTarget">
+    <MonoDevelop.MacDev.AppleDevelopmentTeam />
+  </MonoDevelop.Ide.ItemProperties.iosxamarin0731>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
