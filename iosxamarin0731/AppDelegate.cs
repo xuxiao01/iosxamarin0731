@@ -4,6 +4,10 @@ using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile.Crashes;
 using Microsoft.Azure.Mobile.Push;
+using Microsoft.Azure.Mobile.Distribute;
+using System;
+using System.Threading.Tasks;
+
 namespace iosxamarin0731
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the
@@ -21,8 +25,45 @@ namespace iosxamarin0731
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-			MobileCenter.Start("81c50714-db06-4324-83cc-ad1d44f746b1",
-                               typeof(Analytics), typeof(Crashes),typeof(Push));
+			bool OnReleaseAvailable(ReleaseDetails releaseDetails)
+			{
+				MobileCenterLog.Info("MobileCenterDemo", "OnReleaseAvailable id=" + releaseDetails.Id
+												+ " version=" + releaseDetails.Version
+												+ " releaseNotesUrl=" + releaseDetails.ReleaseNotesUrl);
+				var custom = releaseDetails.ReleaseNotes?.ToLowerInvariant().Contains("custom") ?? false;
+				if (custom)
+				{
+					var title = "Version " + releaseDetails.ShortVersion + " available!";
+					UIAlertView messageBox = new UIAlertView();
+					messageBox.Title = title;
+					messageBox.Message = releaseDetails.ReleaseNotes;
+					if (releaseDetails.MandatoryUpdate)
+					{
+						messageBox.AddButton("Update now!");
+					}
+					else
+					{
+						messageBox.AddButton("Update now!");
+						messageBox.AddButton("Maybe tomorrow...");
+					}
+					messageBox.Clicked += (sender, e) =>
+					{
+						if (releaseDetails.MandatoryUpdate || (e.ButtonIndex == 0))
+						{
+							Distribute.NotifyUpdateAction(UpdateAction.Update);
+						}
+						else
+						{
+							Distribute.NotifyUpdateAction(UpdateAction.Postpone);
+						}
+					};
+					messageBox.Show();
+				}
+				return custom;
+			}
+            Distribute.ReleaseAvailable = OnReleaseAvailable;
+			MobileCenter.Start("47c882b4-21ce-41dd-96fc-8e80c41c61ea",
+                               typeof(Analytics), typeof(Crashes),typeof(Push),typeof(Distribute));
             Analytics.TrackEvent("OnResignActivation");
             Analytics.TrackEvent("DidEnterBackground");
             Analytics.TrackEvent("WillEnterForeground");
